@@ -26,6 +26,19 @@ npm run dev
 .\.local-postgres\pgsql\bin\pg_ctl.exe -D .local-postgres/data -l .local-postgres/server.log -o "-h 127.0.0.1 -p 55432" -w start
 ```
 
+## Вход владельца
+
+`npm run db:setup` также создаёт таблицы аккаунта и сессий. В установке магазина может быть один владелец. Учётная запись создаётся из интерактивного терминала, например в VS Code.
+
+```powershell
+npm run db:setup
+npm run owner:create
+```
+
+Введи адрес почты владельца. Команда сгенерирует пароль и один раз покажет его в терминале. Сохрани пароль в менеджере паролей. Затем открой `/owner/login` или выбери «Кабинет владельца» внизу сайта.
+
+Переменная `OWNER_AUTH_SECRET` должна содержать не менее 32 случайных символов. Для новой установки можно сгенерировать значение командой `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"` и сохранить его в `.env.local` или в секретах хостинга. На локальном компьютере принимает вход только loopback-адрес. Для размещения сайта укажи в `OWNER_AUTH_URL` публичный HTTPS-адрес магазина, например `https://shop.example.com`.
+
 ## Команды запуска
 
 First, run the development server:

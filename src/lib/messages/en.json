@@ -139,6 +139,20 @@
       "oceania": "Oceania"
     }
   },
+  "owner": {
+    "title": "Store owner",
+    "login": "Owner sign-in",
+    "intro": "Sign in to the store owner account.",
+    "email": "Email address",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "signOut": "Sign out",
+    "invalid": "Check your email address and password.",
+    "limited": "Too many sign-in attempts. Try again in a minute.",
+    "unavailable": "Sign-in is temporarily unavailable. Try again later.",
+    "active": "You are signed in as the store owner."
+  },
   "order": {
     "loading": "Loading order…",
     "missing": "Order not found",

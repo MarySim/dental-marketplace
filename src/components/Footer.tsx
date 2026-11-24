@@ -2,7 +2,7 @@ import Link from "next/link";
 import { messages, type Locale } from "@/lib/i18n";
 
 export function Footer({ locale }: { locale: Locale }) {
-  const { clinic, footer, nav } = messages[locale];
+  const { clinic, footer, nav, owner } = messages[locale];
   return (
     <footer className="mt-auto border-t border-sky-100 bg-sky-50">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-3">
@@ -27,6 +27,11 @@ export function Footer({ locale }: { locale: Locale }) {
             <li>
               <Link href="/checkout" className="hover:text-sky-800">
                 {footer.checkout}
+              </Link>
+            </li>
+            <li>
+              <Link href="/owner" prefetch={false} className="hover:text-sky-800">
+                {owner.title}
               </Link>
             </li>
           </ul>
