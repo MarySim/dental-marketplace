@@ -46,8 +46,8 @@ export default function CartPage() {
                       {product.names[locale]}
                     </Link>
                     <p className="text-sm text-slate-500">
-                      {formatRub(product.priceRub, locale)} · {product.units[locale]} ·{" "}
-                      {product.shipsWorldwide ? common.goods : common.treatment}
+                      {formatRub(product.priceRub, locale)} · {product.units[locale]}
+                      {product.shipsWorldwide ? ` · ${common.goods}` : null}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">

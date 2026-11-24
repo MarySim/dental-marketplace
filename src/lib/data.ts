@@ -1,11 +1,5 @@
 import type { ShippingRegion } from "./types";
 
-export const clinic = {
-  verifiedByOwner: true,
-  rating: 4.6,
-  reviewCount: 41,
-};
-
 export const shippingRegions: ShippingRegion[] = [
   { id: "ru", transitDays: "2–5", baseRub: 450, perKgRub: 80 },
   { id: "cis", transitDays: "5–10", baseRub: 1200, perKgRub: 220 },

@@ -10,7 +10,7 @@ export async function generateMetadata() {
 }
 
 type CatalogProps = {
-  searchParams: Promise<{ category?: string; kind?: string }>;
+  searchParams: Promise<{ category?: string | string[] }>;
 };
 
 export default async function CatalogPage({ searchParams }: CatalogProps) {
@@ -19,9 +19,6 @@ export default async function CatalogPage({ searchParams }: CatalogProps) {
   return (
     <div>
       <h1 className="text-3xl font-semibold text-sky-950">{copy.nav.catalog}</h1>
-      <p className="mt-2 max-w-2xl text-slate-600">
-        {copy.catalog.intro}
-      </p>
       <div className="mt-6">
         <Suspense>
           <CatalogFilters />
@@ -35,11 +32,9 @@ export default async function CatalogPage({ searchParams }: CatalogProps) {
 }
 
 async function CatalogProducts({ searchParams, locale }: CatalogProps & { locale: Locale }) {
-  const { category, kind } = await searchParams;
-  const products = await listProducts(locale, {
-    category: category && category !== "all" ? category : undefined,
-    kind: kind && kind !== "all" ? kind : undefined,
-  });
+  const value = (await searchParams).category;
+  const category = Array.isArray(value) ? value[0] : value;
+  const products = await listProducts(locale, category && category !== "all" ? category : undefined);
 
   if (products.length === 0) {
     return (

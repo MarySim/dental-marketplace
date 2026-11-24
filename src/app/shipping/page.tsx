@@ -40,9 +40,6 @@ export default async function ShippingPage() {
           </tbody>
         </table>
       </div>
-      <p className="rounded-2xl bg-sky-50 p-4 text-sm text-sky-900">
-        {copy.note}
-      </p>
     </div>
   );
 }

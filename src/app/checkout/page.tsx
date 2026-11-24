@@ -7,7 +7,7 @@ import { useCart } from "@/context/CartContext";
 import { CartProductsStatus } from "@/components/CartProductsStatus";
 import { shippingRegions } from "@/lib/data";
 import { formatRub } from "@/lib/format";
-import { quoteShipping, treatmentItems } from "@/lib/shipping";
+import { quoteShipping } from "@/lib/shipping";
 import type { MockOrder, ShippingRegionId } from "@/lib/types";
 import { useLocale } from "@/app/providers";
 import { messages } from "@/lib/i18n";
@@ -20,13 +20,11 @@ export default function CheckoutPage() {
   const [regionId, setRegionId] = useState<ShippingRegionId>("eu");
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
-  const [notes, setNotes] = useState("");
 
   const quote = useMemo(
     () => quoteShipping(regionId, items, getProduct),
     [regionId, items, getProduct],
   );
-  const treatments = treatmentItems(items, getProduct);
   const shippingRub = quote.amountRub ?? 0;
   const total = subtotalRub + shippingRub;
 
@@ -52,7 +50,7 @@ export default function CheckoutPage() {
       }),
       regionId,
       city,
-      hasTreatments: treatments.length > 0,
+      hasTreatments: false,
       shippingRub,
       subtotalRub,
       totalRub: total,
@@ -115,15 +113,6 @@ export default function CheckoutPage() {
             className="mt-1 w-full rounded-xl border border-sky-200 px-3 py-2"
           />
         </label>
-        <label className="block text-sm font-medium text-slate-700">
-          {checkout.notes}
-          <textarea
-            value={notes}
-            onChange={(event) => setNotes(event.target.value)}
-            rows={3}
-            className="mt-1 w-full rounded-xl border border-sky-200 px-3 py-2"
-          />
-        </label>
       </section>
 
       <aside className="h-fit space-y-4 rounded-3xl border border-sky-100 bg-white p-6">
@@ -153,7 +142,7 @@ export default function CheckoutPage() {
           </p>
           <p className="mt-2 text-xs leading-5 text-slate-500">
             {quote.status === "parcel" && checkout.shippingDemo}
-            {quote.status === "clinicOnly" && checkout.shippingService}
+            {quote.status === "noParcel" && checkout.noParcel}
             {quote.status === "unknownRegion" && checkout.shippingUnknown}
           </p>
           {quote.status === "parcel" && shippingRub > 0 ? (

@@ -13,11 +13,7 @@ export function ProductCard({ product, locale }: { product: Product; locale: Loc
         style={{
           background: `linear-gradient(160deg, ${product.accent} 0%, #eef7fc 100%)`,
         }}
-      >
-        <span className="absolute left-3 top-3 rounded-full bg-white/85 px-2.5 py-1 text-xs font-medium text-sky-800">
-          {product.kind === "treatment" ? copy.common.treatment : copy.common.goods}
-        </span>
-      </div>
+      />
       <div className="flex flex-1 flex-col gap-3 p-4">
         <h3 className="text-base font-semibold leading-snug text-slate-800">
           {product.name}

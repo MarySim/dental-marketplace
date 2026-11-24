@@ -1,72 +1,31 @@
 {
   "meta": {
     "title": "Krasnaya Dental Marketplace",
-    "description": "Dental goods, clinic treatments, and demonstration checkout."
+    "description": "Dental supplies catalog and demonstration checkout."
   },
   "nav": {
-    "home": "Home",
     "catalog": "Catalog",
-    "clinic": "Clinic",
     "shipping": "Shipping",
     "cart": "Cart",
     "language": "Site language",
     "brand": "Krasnaya Dental",
-    "store": "Marketplace"
+    "store": "Marketplace",
+    "signIn": "Sign in"
   },
   "common": {
-    "verified": "Organization details verified by the owner",
     "loadingProducts": "Loading listings…",
     "browse": "Browse listings",
-    "prices": "Browse the catalog",
     "subtotal": "Subtotal",
     "total": "Total",
     "deliveryEstimate": "Shipping estimate",
-    "treatment": "Clinic treatment",
     "goods": "Shippable goods",
     "notFound": "Page not found",
-    "backHome": "Back to the marketplace"
+    "backHome": "Browse listings"
   },
   "footer": {
-    "shipping": "Shipping estimates",
-    "checkout": "Demo checkout",
     "note": "Demo orders do not collect payment or send data to a carrier."
   },
-  "home": {
-    "title": "Dental care, supplies, and shipping",
-    "intro": "Browse clinic treatments and shippable dental goods. Checkout records a demonstration sale only.",
-    "profile": "Clinic profile",
-    "listings": "Listings",
-    "listingsNote": "Treatments from the clinic price list and dental goods.",
-    "sales": "Orders",
-    "salesNote": "Add a product to your cart to try demonstration checkout.",
-    "shipping": "Worldwide shipping",
-    "shippingNote": "See an estimated shipping cost for your region.",
-    "featured": "Featured listings"
-  },
-  "clinic": {
-    "type": "Dental clinic",
-    "address": "5 Krasnaya St.",
-    "hours": "Mon–Fri 10:00–16:00",
-    "hoursLabel": "Hours",
-    "addressLabel": "Address",
-    "note": "The public listing currently shows 41 reviews.",
-    "featuresTitle": "Visiting the clinic",
-    "features": [
-      "Appointment required",
-      "Card payment accepted",
-      "Parking available",
-      "Accessible parking",
-      "Installment plans available for dental treatments"
-    ],
-    "prices": "Treatment prices",
-    "loadingPrices": "Loading prices…",
-    "reviews": "Clinic reviews",
-    "localGuide": "Level 3 Local Guide",
-    "reviewDate": "24 November 2025",
-    "outOfFive": "out of 5"
-  },
   "catalog": {
-    "intro": "Browse the clinic price list and goods available for a demonstration order with shipping.",
     "empty": "No listings match these filters.",
     "categories": {
       "all": "All categories",
@@ -75,11 +34,6 @@
       "prevention": "Prevention",
       "clinical-supplies": "Clinical supplies",
       "home-care": "Home care"
-    },
-    "kinds": {
-      "all": "Treatments & goods",
-      "treatment": "Clinic treatments",
-      "goods": "Shippable goods"
     }
   },
   "product": {
@@ -87,9 +41,7 @@
     "loading": "Loading listing…",
     "listing": "Listing",
     "deliveryNote": "A demonstration shipping estimate is available for this item.",
-    "clinicNote": "This service is provided at the clinic at 5 Krasnaya St.",
     "add": "Add to cart",
-    "reserve": "Reserve in cart",
     "added": "Added",
     "openCart": "Open cart"
   },
@@ -109,14 +61,13 @@
     "name": "Full name",
     "region": "Destination region",
     "city": "City",
-    "notes": "Notes for the clinic",
     "summary": "Order summary",
-    "shippingService": "This order contains clinic treatments only. Nothing is shipped.",
     "shippingDemo": "Shipping is estimated for demonstration purposes.",
     "shippingUnknown": "Choose a destination region to see a demonstration quote.",
     "demoTransit": "Estimated transit",
     "submit": "Place demonstration order",
-    "noCharge": "No payment will be taken."
+    "noCharge": "No payment will be taken.",
+    "noParcel": "A shipping estimate is unavailable for these items."
   },
   "shipping": {
     "title": "Worldwide shipping",
@@ -126,7 +77,6 @@
     "base": "Base rate",
     "perKg": "Per kg",
     "days": "days",
-    "note": "Dental treatment takes place at the clinic at 5 Krasnaya St.",
     "regions": {
       "ru": "Russia",
       "cis": "CIS / neighbouring countries",
@@ -163,7 +113,6 @@
     "unspecified": "Not specified",
     "payment": "No payment was collected.",
     "visit": "This order includes clinic treatment. Contact the clinic to arrange a visit.",
-    "noVisit": "There are no clinic treatments in this order.",
     "shipping": "Shipping costs for goods were estimated for demonstration purposes."
   }
 }

@@ -92,7 +92,7 @@ function OrderDetails({ params }: OrderPageProps) {
       </div>
       <ul className="mt-6 space-y-2 rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-900">
         <li>{copy.payment}</li>
-        <li>{hasTreatments ? copy.visit : copy.noVisit}</li>
+        {hasTreatments ? <li>{copy.visit}</li> : null}
         {order.shippingRub > 0 ? <li>{copy.shipping}</li> : null}
       </ul>
       <Link

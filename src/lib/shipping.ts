@@ -12,10 +12,6 @@ const WEIGHT_BY_SLUG: Record<string, number> = {
   "daily-oral-care-bundle": 0.5,
 };
 
-export function treatmentItems(items: CartItem[], getProduct: ProductLookup) {
-  return items.filter((item) => getProduct(item.slug)?.kind === "treatment");
-}
-
 function estimatedWeightKg(items: CartItem[]) {
   return items.reduce((sum, item) => {
     const unit = WEIGHT_BY_SLUG[item.slug] ?? 0.8;
@@ -36,7 +32,7 @@ export function quoteShipping(regionId: string, items: CartItem[], getProduct: P
       region,
       amountRub: 0,
       weightKg: 0,
-      status: "clinicOnly",
+      status: "noParcel",
     } as const;
   }
 

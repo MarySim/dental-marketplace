@@ -14,24 +14,14 @@ const productColumns = `${cartColumns}, p.category, p.rating::float8 AS rating,
   COALESCE(t.summary, p.summary) AS summary, COALESCE(t.description, p.description) AS description,
   COALESCE(t.highlights, p.highlights) AS highlights`;
 
-export async function listProducts(locale: Locale, {
-  category,
-  kind,
-  limit,
-}: {
-  category?: string;
-  kind?: string;
-  limit?: number;
-} = {}) {
+export async function listProducts(locale: Locale, category?: string) {
   await io();
   const { rows } = await getDatabasePool().query<Product>(
     `SELECT ${productColumns} FROM products p
      LEFT JOIN product_translations t ON t.product_id = p.id AND t.locale = $1
-     WHERE ($2::text IS NULL OR p.category = $2)
-       AND ($3::text IS NULL OR p.kind = $3)
-     ORDER BY p.id
-     LIMIT $4::integer`,
-    [locale, category, kind, limit],
+     WHERE p.kind = 'goods' AND ($2::text IS NULL OR p.category = $2)
+     ORDER BY p.id`,
+    [locale, category],
   );
   return rows;
 }
@@ -41,7 +31,7 @@ export const getProduct = cache(async (slug: string, locale: Locale) => {
   const { rows } = await getDatabasePool().query<Product>(
     `SELECT ${productColumns} FROM products p
      LEFT JOIN product_translations t ON t.product_id = p.id AND t.locale = $2
-     WHERE p.slug = $1`,
+     WHERE p.slug = $1 AND p.kind = 'goods'`,
     [slug, locale],
   );
   return rows[0];
@@ -55,7 +45,7 @@ export async function listCartProducts(slugs: string[]) {
      FROM products p
      LEFT JOIN product_translations ru ON ru.product_id = p.id AND ru.locale = 'ru'
      LEFT JOIN product_translations en ON en.product_id = p.id AND en.locale = 'en'
-     WHERE p.slug = ANY($1::text[])`,
+     WHERE p.slug = ANY($1::text[]) AND p.kind = 'goods'`,
     [slugs],
   );
   return rows;

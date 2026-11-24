@@ -40,9 +40,6 @@ async function ProductDetails({ params, locale }: ProductPageProps & { locale: L
         }}
       />
       <div className="rounded-3xl border border-sky-100 bg-white/80 p-6 sm:p-8">
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-sky-700">
-          {product.kind === "treatment" ? copy.common.treatment : copy.common.goods}
-        </p>
         <h1 className="mt-2 text-3xl font-semibold text-sky-950">{product.name}</h1>
         <div className="mt-3">
           <StarRating rating={product.rating} count={product.reviewCount} locale={locale} />
@@ -60,14 +57,13 @@ async function ProductDetails({ params, locale }: ProductPageProps & { locale: L
             </li>
           ))}
         </ul>
-        <div className="mt-6 rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-900">
-          {product.shipsWorldwide ? copy.product.deliveryNote : copy.product.clinicNote}
-        </div>
+        {product.shipsWorldwide ? (
+          <p className="mt-6 rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-900">
+            {copy.product.deliveryNote}
+          </p>
+        ) : null}
         <div className="mt-6 flex flex-wrap gap-3">
-          <AddToCartButton
-            slug={product.slug}
-            label={product.kind === "treatment" ? copy.product.reserve : copy.product.add}
-          />
+          <AddToCartButton slug={product.slug} />
           <Link
             href="/cart"
             className="rounded-full border border-sky-200 px-5 py-2.5 text-sm font-medium text-sky-800"
