@@ -1,0 +1,154 @@
+[
+  {
+    "slug": "invisible-dentures-rejuvenating",
+    "name": "“Invisible” dentures with a rejuvenating effect",
+    "kind": "treatment",
+    "category": "prosthetics",
+    "unit": "1 unit",
+    "priceRub": 16000,
+    "rating": 4.7,
+    "reviewCount": 18,
+    "shipsWorldwide": false,
+    "accent": "#7eb8d9",
+    "summary": "Clinic-fitted prosthetic treatment designed for a discreet, natural look.",
+    "description": "Provided at Dentistry on Krasnaya St. This listing matches the clinic’s published price for one unit. The visit is booked at the clinic; it is not a shipped item.",
+    "highlights": [
+      "In-clinic fitting and follow-up",
+      "Appointment required",
+      "Installment plans available at the clinic"
+    ]
+  },
+  {
+    "slug": "braces-bite-correction",
+    "name": "Bite correction with braces (no tooth extraction required)",
+    "kind": "treatment",
+    "category": "orthodontics",
+    "unit": "1 unit",
+    "priceRub": 30000,
+    "rating": 4.8,
+    "reviewCount": 22,
+    "shipsWorldwide": false,
+    "accent": "#5a9fc7",
+    "summary": "Orthodontic treatment to correct bite without planned tooth extraction.",
+    "description": "Provided at Dentistry on Krasnaya St. This listing matches the clinic’s published price for one unit. Treatment is delivered on site after an examination.",
+    "highlights": [
+      "No extraction required in the advertised plan",
+      "Monitored by the clinic team",
+      "Parking and accessible parking on site"
+    ]
+  },
+  {
+    "slug": "led-whitening-kit",
+    "name": "Professional LED whitening kit",
+    "kind": "goods",
+    "category": "home-care",
+    "unit": "1 kit",
+    "priceRub": 8900,
+    "rating": 4.5,
+    "reviewCount": 36,
+    "shipsWorldwide": true,
+    "accent": "#9fd0ea",
+    "summary": "Home whitening kit packed for clinic-supervised aftercare.",
+    "description": "A shippable kit for patients who complete an in-clinic colour assessment. Worldwide shipping estimates are simulated in checkout.",
+    "highlights": [
+      "Ships as a sealed kit",
+      "Includes trays and LED lamp",
+      "Demo shipping quotes for 40+ regions"
+    ]
+  },
+  {
+    "slug": "composite-restorative-kit",
+    "name": "Composite restorative kit",
+    "kind": "goods",
+    "category": "clinical-supplies",
+    "unit": "1 kit",
+    "priceRub": 12400,
+    "rating": 4.6,
+    "reviewCount": 14,
+    "shipsWorldwide": true,
+    "accent": "#6aa8c8",
+    "summary": "Clinic-grade composite system for restorative work.",
+    "description": "Shipped to licensed practices. Intended for professional use. Shipping is quoted as a demonstration only — no carrier booking is created.",
+    "highlights": [
+      "Temperature-aware packing notes",
+      "Clinic-to-clinic fulfilment",
+      "Worldwide estimate available"
+    ]
+  },
+  {
+    "slug": "fluoride-varnish-pack",
+    "name": "Pediatric fluoride varnish pack",
+    "kind": "goods",
+    "category": "prevention",
+    "unit": "20 applications",
+    "priceRub": 3200,
+    "rating": 4.4,
+    "reviewCount": 11,
+    "shipsWorldwide": true,
+    "accent": "#8ec4de",
+    "summary": "Preventive varnish pack for chairside use.",
+    "description": "A compact pack suitable for pediatric prevention programmes. Listed alongside the Krasnaya Street clinic catalogue for practices that restock remotely.",
+    "highlights": [
+      "Light parcel",
+      "Ships worldwide (demo quote)",
+      "Clinic supply"
+    ]
+  },
+  {
+    "slug": "clear-retainer-aftercare",
+    "name": "Clear retainer aftercare set",
+    "kind": "goods",
+    "category": "orthodontics",
+    "unit": "1 set",
+    "priceRub": 7500,
+    "rating": 4.5,
+    "reviewCount": 19,
+    "shipsWorldwide": true,
+    "accent": "#b9d9eb",
+    "summary": "Retention set for patients who have completed bite correction.",
+    "description": "Designed as a follow-on product after braces treatment at the clinic. Can be shipped after a scan is on file.",
+    "highlights": [
+      "Pairs with braces treatment",
+      "Worldwide shipping estimate",
+      "Case included"
+    ]
+  },
+  {
+    "slug": "sterile-instrument-cassette",
+    "name": "Sterile instrument cassette",
+    "kind": "goods",
+    "category": "clinical-supplies",
+    "unit": "1 cassette",
+    "priceRub": 15800,
+    "rating": 4.7,
+    "reviewCount": 9,
+    "shipsWorldwide": true,
+    "accent": "#4f8fb5",
+    "summary": "Reusable cassette for organised, sterile instrument flow.",
+    "description": "Heavier clinical equipment with a higher simulated freight quote. No real logistics request is sent.",
+    "highlights": [
+      "Durable case",
+      "Practice equipment",
+      "Demo freight calculation"
+    ]
+  },
+  {
+    "slug": "daily-oral-care-bundle",
+    "name": "Daily oral care bundle",
+    "kind": "goods",
+    "category": "home-care",
+    "unit": "1 bundle",
+    "priceRub": 2100,
+    "rating": 4.3,
+    "reviewCount": 27,
+    "shipsWorldwide": true,
+    "accent": "#a8d4e8",
+    "summary": "Patient bundle: brush, interdental aids, and remineralising paste.",
+    "description": "A light parcel suitable for international demonstration shipping. Sold as a retail add-on to clinic visits.",
+    "highlights": [
+      "Light shipping class",
+      "Home use",
+      "Pairs with hygiene visits"
+    ]
+  }
+]

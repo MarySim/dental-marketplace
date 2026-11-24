@@ -1,0 +1,62 @@
+import "server-only";
+
+import { io } from "next/cache";
+import { cache } from "react";
+import { getDatabasePool } from "./database";
+import type { Locale } from "./i18n";
+import type { CartProduct, Product } from "./types";
+
+const cartColumns = `p.slug, p.kind, p.price_rub::float8 AS "priceRub",
+  p.ships_worldwide AS "shipsWorldwide"`;
+const productColumns = `${cartColumns}, p.category, p.rating::float8 AS rating,
+  p.review_count AS "reviewCount", p.accent,
+  COALESCE(t.name, p.name) AS name, COALESCE(t.unit, p.unit) AS unit,
+  COALESCE(t.summary, p.summary) AS summary, COALESCE(t.description, p.description) AS description,
+  COALESCE(t.highlights, p.highlights) AS highlights`;
+
+export async function listProducts(locale: Locale, {
+  category,
+  kind,
+  limit,
+}: {
+  category?: string;
+  kind?: string;
+  limit?: number;
+} = {}) {
+  await io();
+  const { rows } = await getDatabasePool().query<Product>(
+    `SELECT ${productColumns} FROM products p
+     LEFT JOIN product_translations t ON t.product_id = p.id AND t.locale = $1
+     WHERE ($2::text IS NULL OR p.category = $2)
+       AND ($3::text IS NULL OR p.kind = $3)
+     ORDER BY p.id
+     LIMIT $4::integer`,
+    [locale, category, kind, limit],
+  );
+  return rows;
+}
+
+export const getProduct = cache(async (slug: string, locale: Locale) => {
+  await io();
+  const { rows } = await getDatabasePool().query<Product>(
+    `SELECT ${productColumns} FROM products p
+     LEFT JOIN product_translations t ON t.product_id = p.id AND t.locale = $2
+     WHERE p.slug = $1`,
+    [slug, locale],
+  );
+  return rows[0];
+});
+
+export async function listCartProducts(slugs: string[]) {
+  const { rows } = await getDatabasePool().query<CartProduct>(
+    `SELECT ${cartColumns}, p.name, p.unit,
+       jsonb_build_object('ru', COALESCE(ru.name, p.name), 'en', COALESCE(en.name, p.name)) AS names,
+       jsonb_build_object('ru', COALESCE(ru.unit, p.unit), 'en', COALESCE(en.unit, p.unit)) AS units
+     FROM products p
+     LEFT JOIN product_translations ru ON ru.product_id = p.id AND ru.locale = 'ru'
+     LEFT JOIN product_translations en ON en.product_id = p.id AND en.locale = 'en'
+     WHERE p.slug = ANY($1::text[])`,
+    [slugs],
+  );
+  return rows;
+}
