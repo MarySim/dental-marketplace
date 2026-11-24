@@ -38,6 +38,29 @@ export const getProduct = cache(async (slug: string, locale: Locale) => {
   return rows[0];
 });
 
+export async function listBuyerFavorites(buyerId: string, locale: Locale) {
+  const { rows } = await getDatabasePool().query<Product>(
+    `SELECT ${productColumns} FROM buyer_favorite f
+     INNER JOIN products p ON p.id = f.product_id
+     LEFT JOIN product_translations t ON t.product_id = p.id AND t.locale = $2
+     WHERE f.buyer_id = $1 AND p.kind = 'goods'
+     ORDER BY p.id`,
+    [buyerId, locale],
+  );
+  return rows;
+}
+
+export async function getBuyerProductState(buyerId: string, slug: string) {
+  const { rows } = await getDatabasePool().query<{ inCart: boolean; favorite: boolean }>(
+    `SELECT
+       EXISTS(SELECT 1 FROM buyer_cart c WHERE c.buyer_id = $1 AND c.product_id = p.id) AS "inCart",
+       EXISTS(SELECT 1 FROM buyer_favorite f WHERE f.buyer_id = $1 AND f.product_id = p.id) AS favorite
+     FROM products p WHERE p.slug = $2 AND p.kind = 'goods'`,
+    [buyerId, slug],
+  );
+  return rows[0];
+}
+
 export async function listBuyerCart(buyerId: string, db: PoolClient | ReturnType<typeof getDatabasePool> = getDatabasePool()) {
   const { rows } = await db.query<CartLine>(
     `SELECT ${cartColumns}, p.name, p.unit, c.quantity,

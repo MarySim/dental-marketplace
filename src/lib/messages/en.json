@@ -42,10 +42,12 @@
     "listing": "Listing",
     "deliveryNote": "A demonstration shipping estimate is available for this item.",
     "add": "Add to cart",
-    "added": "Added",
-    "openCart": "Open cart",
     "adding": "Adding…",
-    "unavailable": "This item is unavailable or the limit of 20 has been reached."
+    "unavailable": "This item is currently unavailable.",
+    "inCart": "In cart",
+    "addFavorite": "Add to favorites",
+    "favorited": "In favorites",
+    "favoriteUnavailable": "Could not update favorites."
   },
   "cart": {
     "empty": "Your cart is empty.",
@@ -132,6 +134,12 @@
     "invalidLogin": "Check your email address and password.",
     "duplicate": "This email address already has an account. Sign in to continue.",
     "limited": "Too many attempts. Try again in a minute.",
-    "unavailable": "The service is temporarily unavailable. Try again later."
+    "unavailable": "The service is temporarily unavailable. Try again later.",
+    "profile": "Buyer profile",
+    "favoriteNotice": "Register or sign in to save your favorite items."
+  },
+  "favorites": {
+    "title": "Favorites",
+    "empty": "You have no favorite items yet."
   }
 }

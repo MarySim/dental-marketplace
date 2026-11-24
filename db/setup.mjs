@@ -10,13 +10,14 @@ if (!connectionString) {
 const client = new pg.Client({ connectionString, connectionTimeoutMillis: 5000 });
 
 try {
-  const [schema, products, translationSchema, russianProducts, ownerSchema, buyerSchema] = await Promise.all([
+  const [schema, products, translationSchema, russianProducts, ownerSchema, buyerSchema, favoritesSchema] = await Promise.all([
     readFile(new URL("./001-products.sql", import.meta.url), "utf8"),
     readFile(new URL("./seed-products.json", import.meta.url), "utf8"),
     readFile(new URL("./002-product-translations.sql", import.meta.url), "utf8"),
     readFile(new URL("./seed-products-ru.json", import.meta.url), "utf8"),
     readFile(new URL("./003-owner-auth.sql", import.meta.url), "utf8"),
     readFile(new URL("./004-buyers.sql", import.meta.url), "utf8"),
+    readFile(new URL("./005-buyer-favorites.sql", import.meta.url), "utf8"),
   ]);
 
   await client.connect();
@@ -52,6 +53,7 @@ try {
     );
     await client.query(ownerSchema);
     await client.query(buyerSchema);
+    await client.query(favoritesSchema);
     await client.query("COMMIT");
     console.log(`Catalog is ready. Inserted ${result.rowCount} demo products and ${translations.rowCount} Russian translations.`);
   } catch (error) {

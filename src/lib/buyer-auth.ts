@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { cache } from "react";
 import { getDatabasePool } from "./database";
 import { buyerAuthOptions, hasOwnerAuthSecret } from "./owner-auth-options.mjs";
-import { buyerAuthLink } from "./buyer-links";
+import { buyerAuthLink, type BuyerAuthReason } from "./buyer-links";
 
 function createBuyerAuth() {
   return betterAuth({ ...buyerAuthOptions(getDatabasePool()), plugins: [nextCookies()] });
@@ -30,9 +30,9 @@ export const getBuyer = cache(async () => {
   return session?.user ?? null;
 });
 
-export async function requireBuyer(next: string) {
+export async function requireBuyer(next: string, reason: BuyerAuthReason = "cart") {
   const buyer = await getBuyer();
-  if (!buyer) redirect(buyerAuthLink("register", next, true));
+  if (!buyer) redirect(buyerAuthLink("register", next, reason));
   return buyer;
 }
 

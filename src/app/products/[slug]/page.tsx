@@ -1,9 +1,10 @@
 import { Suspense } from "react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToCartButton } from "@/components/AddToCartButton";
 import { StarRating } from "@/components/StarRating";
-import { getProduct } from "@/lib/products";
+import { getBuyer } from "@/lib/buyer-auth";
+import { getBuyerProductState, getProduct } from "@/lib/products";
+import { FavoriteButton } from "@/components/FavoriteButton";
 import { formatRub } from "@/lib/format";
 import { messages, type Locale } from "@/lib/i18n";
 import { getLocale } from "@/lib/server-locale";
@@ -27,8 +28,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
 async function ProductDetails({ params, locale }: ProductPageProps & { locale: Locale }) {
   const { slug } = await params;
-  const product = await getProduct(slug, locale);
+  const [product, buyer] = await Promise.all([getProduct(slug, locale), getBuyer()]);
   if (!product) notFound();
+  const state = buyer ? await getBuyerProductState(buyer.id, slug) : undefined;
   const copy = messages[locale];
 
   return (
@@ -62,14 +64,9 @@ async function ProductDetails({ params, locale }: ProductPageProps & { locale: L
             {copy.product.deliveryNote}
           </p>
         ) : null}
-        <div className="mt-6 flex flex-wrap gap-3">
-          <AddToCartButton slug={product.slug} />
-          <Link
-            href="/cart"
-            className="rounded-full border border-sky-200 px-5 py-2.5 text-sm font-medium text-sky-800"
-          >
-            {copy.product.openCart}
-          </Link>
+        <div className="mt-6 flex flex-wrap items-start gap-3">
+          <AddToCartButton slug={product.slug} inCart={state?.inCart ?? false} />
+          <FavoriteButton slug={product.slug} selected={state?.favorite ?? false} />
         </div>
       </div>
     </article>

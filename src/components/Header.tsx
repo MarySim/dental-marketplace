@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { Logo } from "./Logo";
-import { signOutBuyer } from "@/app/buyer-actions";
+import { BuyerMenu } from "./BuyerMenu";
 import { useLocale } from "@/app/providers";
 import { setLanguage } from "@/app/language";
 import { locales, messages } from "@/lib/i18n";
 
 export function Header({ signedIn, itemCount }: { signedIn: boolean; itemCount: number }) {
   const locale = useLocale();
-  const { nav, buyer } = messages[locale];
+  const { nav } = messages[locale];
   const accountButton = "ml-auto rounded-full bg-sky-700 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-800";
 
   return (
@@ -55,9 +55,7 @@ export function Header({ signedIn, itemCount }: { signedIn: boolean; itemCount: 
             </span>
           </Link>
           {signedIn ? (
-            <form action={signOutBuyer} className="ml-auto">
-              <button type="submit" className={accountButton}>{buyer.signOut}</button>
-            </form>
+            <BuyerMenu />
           ) : (
             <Link href="/login" prefetch={false} className={accountButton}>{nav.signIn}</Link>
           )}
