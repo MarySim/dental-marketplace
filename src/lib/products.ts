@@ -2,9 +2,10 @@ import "server-only";
 
 import { io } from "next/cache";
 import { cache } from "react";
+import type { PoolClient } from "pg";
 import { getDatabasePool } from "./database";
 import type { Locale } from "./i18n";
-import type { CartProduct, Product } from "./types";
+import type { CartLine, Product } from "./types";
 
 const cartColumns = `p.slug, p.kind, p.price_rub::float8 AS "priceRub",
   p.ships_worldwide AS "shipsWorldwide"`;
@@ -37,16 +38,17 @@ export const getProduct = cache(async (slug: string, locale: Locale) => {
   return rows[0];
 });
 
-export async function listCartProducts(slugs: string[]) {
-  const { rows } = await getDatabasePool().query<CartProduct>(
-    `SELECT ${cartColumns}, p.name, p.unit,
+export async function listBuyerCart(buyerId: string, db: PoolClient | ReturnType<typeof getDatabasePool> = getDatabasePool()) {
+  const { rows } = await db.query<CartLine>(
+    `SELECT ${cartColumns}, p.name, p.unit, c.quantity,
        jsonb_build_object('ru', COALESCE(ru.name, p.name), 'en', COALESCE(en.name, p.name)) AS names,
        jsonb_build_object('ru', COALESCE(ru.unit, p.unit), 'en', COALESCE(en.unit, p.unit)) AS units
-     FROM products p
+     FROM buyer_cart c INNER JOIN products p ON p.id = c.product_id
      LEFT JOIN product_translations ru ON ru.product_id = p.id AND ru.locale = 'ru'
      LEFT JOIN product_translations en ON en.product_id = p.id AND en.locale = 'en'
-     WHERE p.slug = ANY($1::text[]) AND p.kind = 'goods'`,
-    [slugs],
+     WHERE c.buyer_id = $1 AND p.kind = 'goods'
+     ORDER BY p.id`,
+    [buyerId],
   );
   return rows;
 }

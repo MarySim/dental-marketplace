@@ -43,16 +43,16 @@
     "deliveryNote": "A demonstration shipping estimate is available for this item.",
     "add": "Add to cart",
     "added": "Added",
-    "openCart": "Open cart"
+    "openCart": "Open cart",
+    "adding": "Adding…",
+    "unavailable": "This item is unavailable or the limit of 20 has been reached."
   },
   "cart": {
     "empty": "Your cart is empty.",
     "qty": "Qty",
     "remove": "Remove",
     "checkout": "Continue to demo checkout",
-    "loading": "Loading cart products…",
-    "error": "Cart products could not be loaded.",
-    "retry": "Try again"
+    "update": "Update"
   },
   "checkout": {
     "title": "Demo checkout",
@@ -67,7 +67,8 @@
     "demoTransit": "Estimated transit",
     "submit": "Place demonstration order",
     "noCharge": "No payment will be taken.",
-    "noParcel": "A shipping estimate is unavailable for these items."
+    "noParcel": "A shipping estimate is unavailable for these items.",
+    "invalid": "Check the name, region, and city."
   },
   "shipping": {
     "title": "Worldwide shipping",
@@ -104,15 +105,33 @@
     "active": "You are signed in as the store owner."
   },
   "order": {
-    "loading": "Loading order…",
     "missing": "Order not found",
-    "missingNote": "Demonstration orders are available in the tab where they were placed.",
+    "missingNote": "Only orders placed with this account are available here.",
     "type": "Demonstration sale",
     "title": "Order",
     "recorded": "Recorded",
     "unspecified": "Not specified",
     "payment": "No payment was collected.",
-    "visit": "This order includes clinic treatment. Contact the clinic to arrange a visit.",
     "shipping": "Shipping costs for goods were estimated for demonstration purposes."
+  },
+  "buyer": {
+    "name": "Full name",
+    "email": "Email address",
+    "password": "Password",
+    "passwordHint": "At least 12 characters.",
+    "registerTitle": "Buyer registration",
+    "loginTitle": "Buyer sign-in",
+    "register": "Register",
+    "login": "Sign in",
+    "signOut": "Sign out",
+    "hasAccount": "Already have an account?",
+    "noAccount": "New here?",
+    "pending": "Please wait…",
+    "cartNotice": "Register or sign in to add items to your cart or place an order.",
+    "invalid": "Check your name, email address, and password length.",
+    "invalidLogin": "Check your email address and password.",
+    "duplicate": "This email address already has an account. Sign in to continue.",
+    "limited": "Too many attempts. Try again in a minute.",
+    "unavailable": "The service is temporarily unavailable. Try again later."
   }
 }

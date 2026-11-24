@@ -5,6 +5,8 @@ import { Header } from "@/components/Header";
 import { getLocale } from "@/lib/server-locale";
 import { messages } from "@/lib/i18n";
 import { Providers } from "./providers";
+import { getBuyer } from "@/lib/buyer-auth";
+import { getBuyerCartCount } from "@/lib/buyer-cart";
 import "./globals.css";
 
 const nunito = Nunito_Sans({
@@ -24,12 +26,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const locale = await getLocale();
+  const [locale, buyer] = await Promise.all([getLocale(), getBuyer()]);
+  const itemCount = buyer ? await getBuyerCartCount(buyer.id) : 0;
   return (
     <html lang={locale} className={`${nunito.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <Providers locale={locale}>
-          <Header />
+          <Header signedIn={Boolean(buyer)} itemCount={itemCount} />
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
           <Footer locale={locale} />
         </Providers>

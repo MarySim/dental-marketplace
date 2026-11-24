@@ -38,6 +38,8 @@ export type CartProduct = Pick<
   units: Record<Locale, string>;
 };
 
+export type CartLine = CartItem & CartProduct;
+
 export type ShippingRegionId = keyof typeof messages.ru.shipping.regions;
 
 export type ShippingRegion = {
@@ -53,14 +55,14 @@ export type MockOrder = {
   items: Array<{
     slug: string;
     name: string;
-    names?: Record<Locale, string>;
+    names: Record<Locale, string>;
     quantity: number;
     unitPriceRub: number;
   }>;
   shippingRub: number;
   subtotalRub: number;
   totalRub: number;
-} & (
-  | { regionId: ShippingRegionId; city: string; hasTreatments: boolean }
-  | { destination: string; fulfillmentNotes: string[] }
-);
+  regionId: ShippingRegionId;
+  city: string;
+  recipient: string;
+};

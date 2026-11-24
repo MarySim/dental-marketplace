@@ -1,23 +1,23 @@
-"use client";
-
 import Link from "next/link";
-import { useCart } from "@/context/CartContext";
+import { requireBuyer } from "@/lib/buyer-auth";
+import { listBuyerCart } from "@/lib/products";
+import { cartSubtotal } from "@/lib/cart-total";
+import { changeCart } from "@/app/shopping-actions";
+import { CartQuantity } from "./CartQuantity";
 import { formatRub } from "@/lib/format";
-import { CartProductsStatus } from "@/components/CartProductsStatus";
-import { useLocale } from "@/app/providers";
+import { getLocale } from "@/lib/server-locale";
 import { messages } from "@/lib/i18n";
 
-export default function CartPage() {
-  const { items, setQuantity, remove, subtotalRub, getProduct, isLoading, hasError } = useCart();
-  const locale = useLocale();
+export default async function CartPage() {
+  const [buyer, locale] = await Promise.all([requireBuyer("/cart"), getLocale()]);
+  const items = await listBuyerCart(buyer.id);
+  const subtotalRub = cartSubtotal(items);
   const { nav, common, cart } = messages[locale];
 
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-semibold text-sky-950">{nav.cart}</h1>
-      {isLoading || hasError ? (
-        <CartProductsStatus />
-      ) : items.length === 0 ? (
+      {items.length === 0 ? (
         <div className="rounded-3xl border border-sky-100 bg-white p-8">
           <p className="text-slate-600">{cart.empty}</p>
           <Link
@@ -30,51 +30,40 @@ export default function CartPage() {
       ) : (
         <>
           <ul className="space-y-3">
-            {items.map((item) => {
-              const product = getProduct(item.slug);
-              if (!product) return null;
-              return (
-                <li
-                  key={item.slug}
-                  className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-sky-100 bg-white p-4"
-                >
-                  <div>
-                    <Link
-                      href={`/products/${product.slug}`}
-                      className="font-medium text-sky-950"
-                    >
-                      {product.names[locale]}
-                    </Link>
-                    <p className="text-sm text-slate-500">
-                      {formatRub(product.priceRub, locale)} · {product.units[locale]}
-                      {product.shipsWorldwide ? ` · ${common.goods}` : null}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <label className="text-sm text-slate-500">
-                      {cart.qty}
-                      <input
-                        type="number"
-                        min={1}
-                        max={20}
-                        value={item.quantity}
-                        onChange={(event) =>
-                          setQuantity(item.slug, Number(event.target.value))
-                        }
-                        className="ml-2 w-16 rounded-lg border border-sky-200 px-2 py-1"
-                      />
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => remove(item.slug)}
-                      className="text-sm text-sky-700"
-                    >
+            {items.map((product) => (
+              <li
+                key={product.slug}
+                className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-sky-100 bg-white p-4"
+              >
+                <div>
+                  <Link
+                    href={`/products/${product.slug}`}
+                    className="font-medium text-sky-950"
+                  >
+                    {product.names[locale]}
+                  </Link>
+                  <p className="text-sm text-slate-500">
+                    {formatRub(product.priceRub, locale)} · {product.units[locale]}
+                    {product.shipsWorldwide ? ` · ${common.goods}` : null}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CartQuantity
+                    key={product.quantity}
+                    slug={product.slug}
+                    quantity={product.quantity}
+                    label={cart.qty}
+                    update={cart.update}
+                  />
+                  <form action={changeCart}>
+                    <input type="hidden" name="slug" value={product.slug} />
+                    <button name="operation" value="remove" className="text-sm text-sky-700">
                       {cart.remove}
                     </button>
-                  </div>
-                </li>
-              );
-            })}
+                  </form>
+                </div>
+              </li>
+            ))}
           </ul>
           <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-sky-50 p-5">
             <p className="text-lg font-semibold text-sky-950">

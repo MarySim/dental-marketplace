@@ -23,6 +23,50 @@ export function hasOwnerAuthSecret() {
  * @returns {import("better-auth").BetterAuthOptions}
  */
 export function ownerAuthOptions(database, { provision = false } = {}) {
+  return {
+    ...baseAuthOptions(database, provision),
+    user: { modelName: "owner_user" },
+    account: { modelName: "owner_account" },
+    verification: { modelName: "owner_verification" },
+    session: {
+      modelName: "owner_session",
+      expiresIn: 60 * 60 * 8,
+      disableSessionRefresh: true,
+      cookieCache: { enabled: false },
+    },
+    emailAndPassword: {
+      enabled: true,
+      disableSignUp: !provision,
+      autoSignIn: false,
+      minPasswordLength: 16,
+    },
+  };
+}
+
+/** @param {import("pg").Pool} database */
+export function buyerAuthOptions(database) {
+  const base = baseAuthOptions(database);
+  return {
+    ...base,
+    user: { modelName: "buyer_user" },
+    account: { modelName: "buyer_account" },
+    verification: { modelName: "buyer_verification" },
+    session: {
+      modelName: "buyer_session",
+      expiresIn: 60 * 60 * 24 * 7,
+      disableSessionRefresh: true,
+      cookieCache: { enabled: false },
+    },
+    emailAndPassword: { enabled: true, autoSignIn: true, minPasswordLength: 12 },
+    advanced: { ...base.advanced, cookiePrefix: "krasnaya-buyer" },
+  };
+}
+
+/**
+ * @param {import("pg").Pool} database
+ * @returns {import("better-auth").BetterAuthOptions}
+ */
+function baseAuthOptions(database, provision = false) {
   if (!hasOwnerAuthSecret()) throw new Error("Set OWNER_AUTH_SECRET to at least 32 random characters.");
 
   const publicURL = process.env.OWNER_AUTH_URL ? new URL(process.env.OWNER_AUTH_URL) : undefined;
@@ -42,21 +86,6 @@ export function ownerAuthOptions(database, { provision = false } = {}) {
       ],
       protocol: "http",
       ...(provision ? { fallback: "http://127.0.0.1" } : {}),
-    },
-    user: { modelName: "owner_user" },
-    account: { modelName: "owner_account" },
-    verification: { modelName: "owner_verification" },
-    session: {
-      modelName: "owner_session",
-      expiresIn: 60 * 60 * 8,
-      disableSessionRefresh: true,
-      cookieCache: { enabled: false },
-    },
-    emailAndPassword: {
-      enabled: true,
-      disableSignUp: !provision,
-      autoSignIn: false,
-      minPasswordLength: 16,
     },
     advanced: {
       cookiePrefix: "krasnaya-owner",

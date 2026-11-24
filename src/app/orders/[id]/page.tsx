@@ -1,40 +1,14 @@
-"use client";
-
-import { Suspense, use, useSyncExternalStore } from "react";
 import Link from "next/link";
-import type { MockOrder } from "@/lib/types";
+import { requireBuyer } from "@/lib/buyer-auth";
+import { getBuyerOrder } from "@/lib/buyer-cart";
 import { formatRub } from "@/lib/format";
-import { useLocale } from "@/app/providers";
+import { getLocale } from "@/lib/server-locale";
 import { formatLocales, messages } from "@/lib/i18n";
 
-type OrderPageProps = { params: Promise<{ id: string }> };
-export default function OrderPage({ params }: OrderPageProps) {
-  return (
-    <Suspense fallback={<OrderLoading />}>
-      <OrderDetails params={params} />
-    </Suspense>
-  );
-}
-
-// Checkout writes the order once before navigating to this page.
-const subscribeToOrder = () => () => {};
-
-function OrderLoading() {
-  const { order } = messages[useLocale()];
-  return <p role="status">{order.loading}</p>;
-}
-
-function OrderDetails({ params }: OrderPageProps) {
-  const locale = useLocale();
+export default async function OrderPage({ params }: PageProps<"/orders/[id]">) {
+  const [buyer, locale, { id }] = await Promise.all([requireBuyer("/cart"), getLocale(), params]);
   const { order: copy, shipping, common } = messages[locale];
-  const { id } = use(params);
-  const raw = useSyncExternalStore(
-    subscribeToOrder,
-    () => sessionStorage.getItem(`order:${id}`),
-    () => undefined,
-  );
-  if (raw === undefined) return <OrderLoading />;
-  const order = raw ? (JSON.parse(raw) as MockOrder) : null;
+  const order = await getBuyerOrder(buyer.id, id);
 
   if (!order) {
     return (
@@ -50,12 +24,7 @@ function OrderDetails({ params }: OrderPageProps) {
     );
   }
 
-  const destination = "regionId" in order
-    ? [shipping.regions[order.regionId], order.city].filter(Boolean).join(" · ")
-    : order.destination;
-  const hasTreatments = "hasTreatments" in order
-    ? order.hasTreatments
-    : order.fulfillmentNotes.some((note) => note.startsWith("Clinic treatments are held"));
+  const destination = [shipping.regions[order.regionId], order.city].filter(Boolean).join(" · ");
 
   return (
     <div className="rounded-3xl border border-sky-100 bg-white/90 p-8">
@@ -64,13 +33,13 @@ function OrderDetails({ params }: OrderPageProps) {
       </p>
       <h1 className="mt-2 text-3xl font-semibold text-sky-950">{copy.title} {order.id}</h1>
       <p className="mt-2 text-slate-500">
-        {copy.recorded} {new Date(order.createdAt).toLocaleString(formatLocales[locale])} · {destination || copy.unspecified}
+        {copy.recorded} {new Date(order.createdAt).toLocaleString(formatLocales[locale], { timeZone: "Asia/Krasnoyarsk" })} · {destination || copy.unspecified}
       </p>
       <ul className="mt-6 divide-y divide-sky-100">
         {order.items.map((item) => (
           <li key={item.slug} className="flex justify-between py-3 text-sm">
             <span>
-              {item.names?.[locale] ?? item.name} × {item.quantity}
+              {item.names[locale]} × {item.quantity}
             </span>
             <span>{formatRub(item.unitPriceRub * item.quantity, locale)}</span>
           </li>
@@ -92,7 +61,6 @@ function OrderDetails({ params }: OrderPageProps) {
       </div>
       <ul className="mt-6 space-y-2 rounded-2xl bg-sky-50 p-4 text-sm leading-6 text-sky-900">
         <li>{copy.payment}</li>
-        {hasTreatments ? <li>{copy.visit}</li> : null}
         {order.shippingRub > 0 ? <li>{copy.shipping}</li> : null}
       </ul>
       <Link
